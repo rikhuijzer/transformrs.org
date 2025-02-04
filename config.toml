@@ -1,0 +1,13 @@
+title = "transformrs"
+description = "An interface for AI API providers"
+default_language = "en"
+base_url = "https://transformrs.org"
+
+author = "transformrs project authors"
+generate_sitemap = true
+generate_robots_txt = false
+minify_html = false
+output_dir = "_public"
+
+# Probably need to remove _css from .gitignore if enabling.
+generate_feeds = false

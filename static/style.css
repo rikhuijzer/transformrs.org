@@ -1,0 +1,384 @@
+:root {
+    --dark-blue: hsl(214, 93%, 42%);
+    --light-blue: hsl(214, 93%, 78%);
+    --blue: hsl(214, 93%, 62%);
+    --light-gray: #f2f2f2;
+    --gray: #808080;
+    --xrcf-title: #333;
+    --black: #000000;
+    --flame: #fa7a02;
+    --medium: 18px;
+    --text: #000000;
+    --background: hsl(230, 60%, 98%);
+    --code-background: hsl(230, 60%, 98%);
+    --code-border: #dbdbdb;
+    --border: #eaeaea;
+    --blue-gradient: linear-gradient(to right, var(--dark-blue), var(--blue));
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --blue-gradient: linear-gradient(to right, var(--blue), var(--light-blue));
+        --background: hsl(0, 0%, 20%);
+        --border: #4e4e4e;
+        --code-background: hsl(0, 0%, 5%);
+        --code-border: #0e0e0e;
+        --text: #ddd;
+        --xrcf-title: #d1cdcd;
+    }
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/font/source-code-pro-latin.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/font/roboto-latin.woff2) format('woff2');
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 150%;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: sans-serif;
+    line-height: 120%;
+}
+
+.content {
+    margin: 6px;
+    padding-top: 60px;
+    padding-bottom: 20px;
+}
+
+a {
+    text-decoration: underline;
+    color: var(--blue);
+}
+
+.menu {
+    margin: 0px;
+    padding-bottom: 10px;
+    height: 30px;
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+    background-color: var(--background);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.menu a {
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-decoration: none;
+}
+
+.menu-title {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.menu-title a {
+    color: var(--xrcf-title);
+}
+
+hr {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+}
+
+code {
+    font-size: 15px;
+}
+
+.page-foot {
+    margin-top: 100px;
+    font-size: 11px;
+    line-height: 140%;
+    text-align: left;
+}
+
+.page-foot th {
+    vertical-align: top;
+}
+
+.page-head {
+    margin-top: 40px;
+}
+
+.page-date {
+    font-size: 14px;
+    margin-bottom: 40px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero {
+    align-items: center;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    text-align: center;
+    font-size: 3.7vh;
+}
+
+.subhero {
+  font-size: 2.7vh;
+  padding-bottom: 60px;
+  line-height: 1.2em;
+  margin-bottom: 70px;
+  text-align: center;
+  max-width: 45ch;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+    padding-right: 10px;
+}
+
+input#menu {
+    display: none;
+}
+
+.menu-content {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.menu-content ul {
+    margin: 0px;
+}
+
+.menu-content li {
+    list-style: none;
+    margin: 20px;
+    margin-left: 0px;
+}
+
+input:checked ~ .menu-content {
+    max-height: 100%;
+    border-left: 1px solid var(--border);
+    background-color: var(--background);
+    position: fixed;
+    right: 0px;
+    top: 41px;
+    height: 100%;
+}
+
+.menu-button {
+    position: fixed;
+    right: 4px;
+    top: 4px;
+    font-size: 24px;
+}
+
+input:checked ~ .right {
+    float: left;
+}
+
+@media (min-width: 700px) {
+    body {
+        font-size: 20px;
+    }
+
+    li {
+        font-size: var(--medium);
+        margin: 0.2em 0;
+    }
+
+    .content {
+        margin: auto !important;
+        max-width: 780px;
+        padding: 10px;
+        padding-top: 90px;
+        padding-bottom: 60px;
+        margin-top: 40px;
+        margin-bottom: 80px;
+    }
+
+    .medium {
+        font-size: var(--medium);
+        line-height: 100%;
+    }
+
+    .menu-title {
+        padding-top: 8px;
+        padding-left: 20px;
+        font-weight: 800;
+    }
+
+    .menu-content {
+        margin-top: 10px;
+        margin-right: 90px !important;
+    }
+
+    .menu {
+        height: 50px;
+    }
+
+    .menu-svg {
+        position: fixed;
+        top: 10px;
+        right: 30px;
+    }
+
+    .menu a {
+        font-size: 22px;
+    }
+
+  .menu label {
+    display: none;
+  }
+
+  .menu-content {
+    max-height: 100%;
+    margin-right: 20px;
+  }
+
+  .menu-content li {
+     display: inline-block;
+     margin: 0px;
+     padding-top: 7px;
+     padding-bottom: 10px;
+  }
+  .menu-svg li {
+    position: absolute;
+    top: 10px;
+  }
+}
+
+ul.articles {
+  list-style-type: none;
+  padding: unset;
+}
+
+ul.articles li {
+  display: flex;
+  margin: 8px;
+}
+
+ul.articles li span {
+  flex: 0 0 130px;
+}
+
+ul {
+    margin: 0.7em;
+}
+
+li p {
+    margin: 0;
+}
+
+code {
+  font-family: 'Source Code Pro', monospace;
+  font-variant-ligatures: none;
+  background-color: var(--code-background) !important;
+  white-space: nowrap;
+  padding: 0.15em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  border-radius: 5px;
+}
+
+/* Don't set this for code in general because that would put inline code on a newline. */
+pre code {
+  background-color: var(--code-background);
+  font-size: 14px;
+  border: 1px solid var(--code-border);
+  display: block;
+  overflow: auto;
+  white-space: pre;
+  word-wrap: normal;
+  line-height: 140%;
+  padding-top: 0.8em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-bottom: 0.8em;
+}
+
+table {
+  line-height: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  text-align: left;
+  margin-bottom: 1.5em;
+}
+
+tr:first-of-type {
+  /* background: #eae9f4; */
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  border-right: none;
+}
+
+tr:last-of-type {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+tr:first-of-type>th {
+  text-align: center;
+}
+
+tr, th, td {
+ padding: 8px;
+ border: 1px solid var(--border);
+ text-align: left !important;
+}
+
+table tbody tr td {
+ border:1px solid var(--border);
+}
+
+.background-info {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: 700;
+}
+
+.emphasize {
+  background: var(--blue-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footnote-definition {
+  margin-top: 2em;
+  margin-left: 1em;
+  display: inline-block;
+}
+
+.footnote-definition-label {
+  font-size: 0.7em;
+}
+
+.footnote-definition-label::before {
+  content: "Footnote ";
+}
+
+.footnote-definition-label::after {
+  content: ":";
+  font-size: 0.7em;
+}
+
+.footnote-definition p {
+    display: inline;
+}
