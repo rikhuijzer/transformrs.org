@@ -28,3 +28,6 @@ $ cargo watch -x test
 ```
 
 to automatically run the tests when you make changes.
+This does require the right API keys to be set up.
+Depending on what API keys you have, you can either run only the tests that you care about, or make the changes and send the patch in with a request to run the tests in CI.
+The CI has access to many API keys, so feel free to ask for the test to be run there.

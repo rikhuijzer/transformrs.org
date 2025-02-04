@@ -4,50 +4,58 @@ title = "Home"
 
 <div class="hero">
     <div style="margin-left: auto; margin-right: auto; text-align: center; max-width: 55ch;">
-        <p style="margin-top: 8vh; line-height: 150%;">
-            <span class="emphasize">Aim</span>: A <span class="emphasize">modern</span> library for building <span class="emphasize">production-grade</span> compilers
+        <p style="margin-top: 5vh; line-height: 150%;">
+            transformrs is an <span class="emphasize">interface</span> to multiple <span class="emphasize">AI APIs</span> providers.
         </p>
     </div>
 </div>
 
-<div class="center subhero">
-    Building compilers doesn't have to be rocket science.
-    This open-source library aims to be easy to build and easy to understand while, thanks to Rust, remaining performant, reliable, and productive.
-</div>
+The examples below are based on the tests in the [repository](https://github.com/rikhuijzer/transformrs/tree/main/tests).
+Many tests run repeatedly against the actual APIs to ensure that the library works as expected.
 
-<div id="status" style="text-align: center;">
-    <h2>Status</h2>
-</div>
+## Examples
 
-In the long term, the aim for xrcf is to allow building compilers that can compile any programming language to any target architecture.
+First, set your API key either in an `.env` file or as an environment variable.
+For example, for DeepInfra, set `DEEPINFRA_KEY` in `.env`:
 
-In the near term, the aim is to use xrcf to build a fully functional compiler that can compile the ArnoldC language to an executable.
-To see the compiler in action, see the [walkthrough](/blog/basic-arnoldc).
-ArnoldC is just a test case.
-If xrcf can handle it well, then it will be useful for other compiler projects too.
+```env
+DEEPINFRA_KEY=<KEY>
+```
 
-<div style="text-align: center;">
-    <h3>Lowering to CPU</h3>
-</div>
+Then, you can use the API as follows.
 
-In the table below, a checkmark ✅ means that at least one implementation exists which can lower the construct to code that can be executed on the CPU (via LLVM).
+### Chat Completion
 
-Construct | MLIR | LLVM dialect | LLVM IR
---- | --- | --- | ---
-functions | ✅ | ✅ | ✅
-add | ✅ | ✅ | ✅
-print | ✅ | ✅ | ✅
-if else | ✅ | ✅ | ✅
-for loop | | |
-while loop | | |
-... | | |
+```rust
+use transformrs::openai;
+use transformrs::Message;
+use transformrs::Provider;
 
-For example, this table means that print can be lowered from MLIR to the LLVM dialect and then to LLVM IR.
-This means that to get your own `print` operation to run on the CPU, you only need to convert your own `print` operation to MLIR.
-From there, xrcf can be used to run your code on the CPU.
+fn main() {
+    let messages = vec![
+        Message {
+            role: "system".to_string(),
+            content: "You are a helpful assistant.".to_string(),
+        },
+        Message {
+            role: "user".to_string(),
+            content: "This is a test. Please respond with 'hello world'.".to_string(),
+        },
+    ];
+    let keys = transformrs::load_keys(".env");
+    let key = keys.for_provider(&Provider::DeepInfra).unwrap();
+    let model = "meta-llama/Llama-3.3-70B-Instruct";
+    // Using the OpenAI-compatible API for chat completions.
+    let resp = openai::chat_completion(&key, model, &messages)
+        .await
+        .unwrap();
+    println!("{}", resp.choices[0].message.content);
+}
+```
 
-<center>
-    <h3>Lowering to GPU</h3>
-</center>
+This will print:
 
-High on the priority list.
+```
+hello world
+```
+

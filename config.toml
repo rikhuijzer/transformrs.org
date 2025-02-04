@@ -1,9 +1,9 @@
-title = "xrcf"
-description = "eXtensible and Reusable Compiler Framework"
+title = "transformrs"
+description = "An interface for AI API providers"
 default_language = "en"
-base_url = "https://xrcf.org"
+base_url = "https://transformrs.org"
 
-author = "xrcf project authors"
+author = "transformrs project authors"
 generate_sitemap = true
 generate_robots_txt = false
 minify_html = false
