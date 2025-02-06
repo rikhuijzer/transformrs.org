@@ -35,6 +35,8 @@ Then, you can use the API as follows.
 
 ### Chat Completion
 
+_Tested with:_ DeepInfra, OpenAI
+
 ```rust
 use transformrs::openai;
 use transformrs::Message;
@@ -68,6 +70,8 @@ hello world
 ```
 
 ### Streaming Chat Completion
+
+_Tested with:_ DeepInfra, OpenAI
 
 ```rust
 use futures_util::stream::StreamExt;
