@@ -1,0 +1,9 @@
+[package]
+name = "transformrs-org"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+regex = "1.11.1"
+tempfile = "3"
+transformrs = "0.2.0"

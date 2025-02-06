@@ -19,6 +19,13 @@ jobs:
         with:
           tool: zola@0.19.2
 
+      - run: cargo build
+
+      - run: |
+          echo "DEEPINFRA_KEY=${{ secrets.DEEPINFRA_KEY }}" > .env
+
+      - run: cargo run
+
       - run: zola build
 
       - uses: cloudflare/wrangler-action@v3

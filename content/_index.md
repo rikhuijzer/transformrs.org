@@ -22,6 +22,14 @@ For example, for DeepInfra, set `DEEPINFRA_KEY` in `.env`:
 DEEPINFRA_KEY=<KEY>
 ```
 
+and add the library to your `Cargo.toml`:
+
+```toml
+[dependencies]
+transformrs = "0.2.0"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+```
+
 Then, you can use the API as follows.
 
 ### Chat Completion
@@ -31,7 +39,8 @@ use transformrs::openai;
 use transformrs::Message;
 use transformrs::Provider;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let messages = vec![
         Message {
             role: "system".to_string(),
