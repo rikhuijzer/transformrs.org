@@ -35,25 +35,40 @@ fn copy_env(dir: &Path) {
 
 fn run_project(dir: &Path) {
     println!("Building project...");
-    let _output = Command::new("cargo")
-        .arg("build")
+    let output = Command::new("cargo")
+        .args(["build", "--profile=dev"])
         .current_dir(dir)
         .output()
         .expect("Failed to run cargo build");
 
+    if output.status.success() {
+        println!("Project built successfully");
+    } else {
+        println!("Project build failed:");
+        println!(
+            "{}",
+            String::from_utf8(output.stderr)
+                .unwrap()
+                .replace("\\n", "\n")
+        );
+        return;
+    }
+
     println!("Running project...");
     let output = Command::new("cargo")
-        .arg("run")
+        .args(["run", "--profile=dev"])
         .current_dir(dir)
         .output()
         .expect("Failed to run cargo run");
 
-    println!("Output: {:?}", String::from_utf8(output.stdout).unwrap());
+    let stdout = String::from_utf8(output.stdout)
+        .unwrap()
+        .replace("\\n", "\n");
+    println!("Output:\n{stdout}");
 }
 
 fn main() {
-    let content =
-        fs::read_to_string("content/_index.md").expect("Couldn't read _index.md");
+    let content = fs::read_to_string("content/_index.md").expect("Couldn't read _index.md");
 
     let dependencies = code_blocks(&content, "toml").first().unwrap().clone();
     let code_blocks = code_blocks(&content, "rust");

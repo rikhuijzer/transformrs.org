@@ -26,8 +26,9 @@ and add the library to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-transformrs = "0.2.0"
+futures-util = "0.3" # Only required for `stream_chat_completion`.
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+transformrs = "0.2.1"
 ```
 
 Then, you can use the API as follows.
@@ -62,9 +63,14 @@ async fn main() {
 }
 ```
 
+```raw
+hello world
+```
+
 ### Streaming Chat Completion
 
 ```rust
+use futures_util::stream::StreamExt;
 use transformrs::openai;
 use transformrs::Message;
 use transformrs::Provider;
@@ -84,14 +90,18 @@ async fn main() {
     let keys = transformrs::load_keys(".env");
     let key = keys.for_provider(&Provider::DeepInfra).unwrap();
     let model = "meta-llama/Llama-3.3-70B-Instruct";
-    let resp = openai::chat_completion_stream(&key, model, &messages)
+    // Using the OpenAI-compatible API for streaming chat completions.
+    let mut stream = openai::stream_chat_completion(&key, model, &messages)
         .await
         .unwrap();
-    while let Some(resp) = resp.stream.next().await {
+    while let Some(resp) = stream.next().await {
         let resp = resp.unwrap();
         println!("{}", resp.choices[0].delta.content.clone().unwrap_or_default());
     }
-    println!("Stream completed");
 }
 ```
 
+```raw
+hello
+world
+```
