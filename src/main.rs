@@ -34,19 +34,14 @@ fn copy_env(dir: &Path) {
 }
 
 fn run_project(dir: &Path) {
-    // list everything in dir
-    println!("Listing everything in dir: {:?}", dir);
-    let entries = fs::read_dir(dir).unwrap();
-    for entry in entries {
-        println!("Entry: {:?}", entry.unwrap().path());
-    }
-
+    println!("Building project...");
     let _output = Command::new("cargo")
         .arg("build")
         .current_dir(dir)
         .output()
         .expect("Failed to run cargo build");
 
+    println!("Running project...");
     let output = Command::new("cargo")
         .arg("run")
         .current_dir(dir)
@@ -57,18 +52,19 @@ fn run_project(dir: &Path) {
 }
 
 fn main() {
-    // Read the markdown file
     let content =
-        fs::read_to_string("content/_index.md").expect("Failed to read content/_index.md");
+        fs::read_to_string("content/_index.md").expect("Couldn't read _index.md");
 
     let dependencies = code_blocks(&content, "toml").first().unwrap().clone();
     let code_blocks = code_blocks(&content, "rust");
 
-    let tmp_dir = tempfile::tempdir().unwrap();
-    let tmp_dir_path = tmp_dir.path();
-    println!("Tmp dir path: {:?}", tmp_dir_path);
-    create_project(tmp_dir_path, &dependencies, code_blocks.first().unwrap());
-    copy_env(tmp_dir_path);
-    run_project(tmp_dir_path);
-    drop(tmp_dir);
+    for code_block in code_blocks {
+        println!("\nBuilding and running code block:\n{code_block}\n");
+        let tmp_dir = tempfile::tempdir().unwrap();
+        let tmp_dir_path = tmp_dir.path();
+        create_project(tmp_dir_path, &dependencies, &code_block);
+        copy_env(tmp_dir_path);
+        run_project(tmp_dir_path);
+        drop(tmp_dir);
+    }
 }

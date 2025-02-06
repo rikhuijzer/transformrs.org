@@ -62,9 +62,36 @@ async fn main() {
 }
 ```
 
-This will print:
+### Streaming Chat Completion
 
-```
-hello world
+```rust
+use transformrs::openai;
+use transformrs::Message;
+use transformrs::Provider;
+
+#[tokio::main]
+async fn main() {
+    let messages = vec![
+        Message {
+            role: "system".to_string(),
+            content: "You are a helpful assistant.".to_string(),
+        },
+        Message {
+            role: "user".to_string(),
+            content: "This is a test. Please respond with 'hello world'.".to_string(),
+        },
+    ];
+    let keys = transformrs::load_keys(".env");
+    let key = keys.for_provider(&Provider::DeepInfra).unwrap();
+    let model = "meta-llama/Llama-3.3-70B-Instruct";
+    let resp = openai::chat_completion_stream(&key, model, &messages)
+        .await
+        .unwrap();
+    while let Some(resp) = resp.stream.next().await {
+        let resp = resp.unwrap();
+        println!("{}", resp.choices[0].delta.content.clone().unwrap_or_default());
+    }
+    println!("Stream completed");
+}
 ```
 
