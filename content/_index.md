@@ -5,7 +5,8 @@ title = "Home"
 <div class="hero">
     <div style="margin-left: auto; margin-right: auto; text-align: center; max-width: 55ch;">
         <p style="margin-top: 5vh; line-height: 150%;">
-            transformrs is an <span class="emphasize">interface</span> to multiple <span class="emphasize">AI APIs</span> providers.
+            transformrs is an <span class="emphasize">interface</span> to <br>
+            <span class="emphasize">AI API</span> providers.
         </p>
     </div>
 </div>
@@ -32,7 +33,7 @@ Then, you can use the API as follows.
 
 ### Chat Completion
 
-_Tested with:_ DeepInfra, Google, Hyperbolic, OpenAI
+_[Tested with](https://github.com/rikhuijzer/transformrs/blob/main/tests/openai.rs):_ DeepInfra, Google, Hyperbolic, OpenAI
 
 ```rust
 use transformrs::openai;
@@ -64,7 +65,7 @@ hello world
 
 ### Streaming Chat Completion
 
-_Tested with:_ DeepInfra, Google, Hyperbolic, OpenAI
+_[Tested with](https://github.com/rikhuijzer/transformrs/blob/main/tests/openai.rs):_ DeepInfra, Google, Hyperbolic, OpenAI
 
 ```rust
 use futures_util::stream::StreamExt;
@@ -99,7 +100,7 @@ hello
 
 ### Text to Speech
 
-_Tested with:_ DeepInfra
+_[Tested with](https://github.com/rikhuijzer/transformrs/blob/main/tests/text_to_speech.rs):_ DeepInfra
 
 ```rust
 use std::fs::File;
@@ -128,7 +129,7 @@ async fn main() {
 
 ### Text to Image
 
-_Tested with:_ DeepInfra, Hyperbolic
+_[Tested with](https://github.com/rikhuijzer/transformrs/blob/main/tests/text_to_image.rs):_ DeepInfra, Hyperbolic
 
 ```rust
 use std::fs::File;
