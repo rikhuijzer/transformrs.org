@@ -7,7 +7,7 @@ fn code_blocks(content: &str, lang: &str) -> Vec<String> {
     let re = Regex::new(&format!(r"```{lang}\n([\s\S]*?)```")).unwrap();
 
     re.captures_iter(&content)
-        .filter_map(|cap| cap.get(1).map(|code| code.as_str().to_string()))
+        .filter_map(|cap| cap.get(1).map(|code| code.as_str().trim().to_string()))
         .collect()
 }
 
@@ -45,13 +45,12 @@ fn run_project(dir: &Path) {
         println!("Project built successfully");
     } else {
         println!("Project build failed:");
-        println!(
+        panic!(
             "{}",
             String::from_utf8(output.stderr)
                 .unwrap()
                 .replace("\\n", "\n")
         );
-        return;
     }
 
     println!("Running project...");
@@ -74,7 +73,7 @@ fn main() {
     let code_blocks = code_blocks(&content, "rust");
 
     for code_block in code_blocks {
-        println!("\nBuilding and running code block:\n{code_block}\n");
+        println!("\nBuilding and running code block:\n\n```rust\n{code_block}\n```\n");
         let tmp_dir = tempfile::tempdir().unwrap();
         let tmp_dir_path = tmp_dir.path();
         create_project(tmp_dir_path, &dependencies, &code_block);

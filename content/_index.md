@@ -25,7 +25,7 @@ and add the library to your `Cargo.toml`:
 [dependencies]
 futures-util = "0.3" # Only required for `stream_chat_completion`.
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
-transformrs = "0.2.1"
+transformrs = "0.3.0"
 ```
 
 Then, you can use the API as follows.
@@ -42,14 +42,8 @@ use transformrs::Provider;
 #[tokio::main]
 async fn main() {
     let messages = vec![
-        Message {
-            role: "system".to_string(),
-            content: "You are a helpful assistant.".to_string(),
-        },
-        Message {
-            role: "user".to_string(),
-            content: "This is a test. Please respond with 'hello world'.".to_string(),
-        },
+        Message::from_str("system", "You are a helpful assistant."),
+        Message::from_str("user", "This is a test. Please respond with 'hello world'."),
     ];
     let keys = transformrs::load_keys(".env");
     let key = keys.for_provider(&Provider::DeepInfra).unwrap();
@@ -57,8 +51,10 @@ async fn main() {
     // Using the OpenAI-compatible API for chat completions.
     let resp = openai::chat_completion(&key, model, &messages)
         .await
+        .unwrap()
+        .structured()
         .unwrap();
-    println!("{}", resp.choices[0].message.content);
+    println!("{:?}", resp.choices[0].message.content);
 }
 ```
 
@@ -79,14 +75,8 @@ use transformrs::Provider;
 #[tokio::main]
 async fn main() {
     let messages = vec![
-        Message {
-            role: "system".to_string(),
-            content: "You are a helpful assistant.".to_string(),
-        },
-        Message {
-            role: "user".to_string(),
-            content: "This is a test. Please respond with 'hello world'.".to_string(),
-        },
+        Message::from_str("system", "You are a helpful assistant."),
+        Message::from_str("user", "This is a test. Please respond with 'hello world'."),
     ];
     let keys = transformrs::load_keys(".env");
     let key = keys.for_provider(&Provider::DeepInfra).unwrap();
@@ -96,7 +86,6 @@ async fn main() {
         .await
         .unwrap();
     while let Some(resp) = stream.next().await {
-        let resp = resp.unwrap();
         println!("{}", resp.choices[0].delta.content.clone().unwrap_or_default());
     }
 }
@@ -104,7 +93,7 @@ async fn main() {
 
 ```raw
 hello
-world
+ world
 ```
 
 
@@ -127,9 +116,12 @@ async fn main() {
     let model = "hexgrad/Kokoro-82M".to_string();
     let resp = transformrs::text_to_speech::tts(&key, config, &model, msg)
         .await
+        .unwrap()
+        .structured()
         .unwrap();
     let bytes = resp.base64_decode().unwrap();
-    let mut file = File::create("test.mp3").unwrap();
+    let ext = resp.output_format;
+    let mut file = File::create(format!("test.{ext}")).unwrap();
     file.write_all(&bytes).unwrap();
 }
 ```
@@ -152,11 +144,13 @@ async fn main() {
     let prompt = "A beautiful sunset over a calm ocean.";
     let resp = transformrs::text_to_image::text_to_image(&key, config, prompt)
         .await
+        .unwrap()
+        .structured()
         .unwrap();
-
-    let image = &resp.images[0];
-    let bytes = image.base64_decode().unwrap();
-    let mut file = File::create("sunset.jpg").unwrap();
-    file.write_all(&bytes).unwrap();
+    let encoded = &resp.images[0];
+    let image = encoded.base64_decode().unwrap();
+    let filename = format!("sunset.{}", image.filetype);
+    let mut file = File::create(filename).unwrap();
+    file.write_all(&image.image).unwrap();
 }
 ```
