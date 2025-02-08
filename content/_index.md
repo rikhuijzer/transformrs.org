@@ -32,7 +32,7 @@ Then, you can use the API as follows.
 
 ### Chat Completion
 
-_Tested with:_ DeepInfra, OpenAI
+_Tested with:_ DeepInfra, Google, Hyperbolic, OpenAI
 
 ```rust
 use transformrs::openai;
@@ -64,7 +64,7 @@ hello world
 
 ### Streaming Chat Completion
 
-_Tested with:_ DeepInfra, OpenAI
+_Tested with:_ DeepInfra, Google, Hyperbolic, OpenAI
 
 ```rust
 use futures_util::stream::StreamExt;
@@ -128,7 +128,7 @@ async fn main() {
 
 ### Text to Image
 
-_Tested with:_ Hyperbolic
+_Tested with:_ DeepInfra, Hyperbolic
 
 ```rust
 use std::fs::File;
