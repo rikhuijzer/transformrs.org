@@ -5,15 +5,15 @@ page_template = "page.html"
 
 Everyone is welcome to contribute to transformrs.
 
-- Bugs can be reported via GitHub issues at [rikhuijzer/transformrs](https://github.com/rikhuijzer/transformrs/issues).
-- Changes to the source code or documentation can be sent via GitHub pull requests to [rikhuijzer/transformrs](https://github.com/rikhuijzer/transformrs/pulls).
-- Changes to this website can be sent via GitHub pull requests to [rikhuijzer/transformrs.org](https://github.com/rikhuijzer/transformrs.org/pulls).
+- Bugs can be reported via GitHub issues at [transformrs](https://github.com/rikhuijzer/transformrs/issues).
+- Changes to the source code or documentation can be sent via GitHub pull requests to [transformrs](https://github.com/rikhuijzer/transformrs/pulls).
+- Changes to this website can be sent via GitHub pull requests to [www-transformrs](https://github.com/rikhuijzer/www-transformrs/pulls).
 
 <br>
 
 ## Contributing to the Source Code
 
-As stated above, patches can be sent via GitHub PRs to [rikhuijzer/transformrs](https://github.com/rikhuijzer/transformrs/pulls).
+As stated above, patches can be sent via GitHub PRs to [transformrs](https://github.com/rikhuijzer/transformrs/pulls).
 
 To develop locally, you can clone the repository and run
 
