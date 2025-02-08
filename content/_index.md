@@ -31,6 +31,12 @@ transformrs = "0.3.0"
 
 Then, you can use the API as follows.
 
+- [Chat Completion](#chat-completion)
+- [Chat Completion with Image](#chat-completion-with-image)
+- [Streaming Chat Completion](#streaming-chat-completion)
+- [Text to Speech](#text-to-speech)
+- [Text to Image](#text-to-image)
+
 ### Chat Completion
 
 _[Tested with](https://github.com/rikhuijzer/transformrs/blob/main/tests/openai.rs):_ DeepInfra, Google, Hyperbolic, OpenAI
@@ -61,6 +67,41 @@ async fn main() {
 
 ```raw
 hello world
+```
+
+### Chat Completion with Image
+
+_[Tested with](https://github.com/rikhuijzer/transformrs/blob/main/tests/openai.rs):_ DeepInfra, Google, Hyperbolic, OpenAI
+
+```rust
+use transformrs::openai;
+use transformrs::Message;
+use transformrs::Provider;
+
+#[tokio::main]
+async fn main() {
+    let messages = vec![
+        Message::from_str("system", "You are a helpful assistant."),
+        Message::from_str("user", "Describe this image in one sentence."),
+        // To pass a local image, use `Message::from_image_bytes`, for example:
+        // Message::from_image_bytes("user", "jpeg", include_bytes!("sunset.jpg")),
+        Message::from_image_url("user", "https://transformrs.org/sunset.jpg"),
+    ];
+    let keys = transformrs::load_keys(".env");
+    let key = keys.for_provider(&Provider::DeepInfra).unwrap();
+    let model = "meta-llama/Llama-3.2-11B-Vision-Instruct";
+    // Using the OpenAI-compatible API for chat completions.
+    let resp = openai::chat_completion(&key, model, &messages)
+        .await
+        .unwrap()
+        .structured()
+        .unwrap();
+    println!("{:?}", resp.choices[0].message.content);
+}
+```
+
+```raw
+A sunset over a body of water.
 ```
 
 ### Streaming Chat Completion
