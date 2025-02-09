@@ -81,7 +81,6 @@ use transformrs::Provider;
 #[tokio::main]
 async fn main() {
     let messages = vec![
-        Message::from_str("system", "You are a helpful assistant."),
         Message::from_str("user", "Describe this image in one sentence."),
         // To pass a local image, use `Message::from_image_bytes`, for example:
         // Message::from_image_bytes("user", "jpeg", include_bytes!("sunset.jpg")),
